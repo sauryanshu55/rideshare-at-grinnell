@@ -1,0 +1,45 @@
+{% extends "layout.html" %} {% block main_content %}
+<h1> Rides requested by Students </h1>
+
+<a href="{{url_for('pages.request_ride')}}" class="new__ride--link">
+    [+] Request a ride
+</a> {% if list_of_available_rides %}
+<table class="table">
+
+    <thead>
+        <th class="table__cell table__cell--header">Requester</th>
+        <th class="table__cell table__cell--header">Date</th>
+        <th class="table__cell table__cell--header">Time</th>
+        <th class="table__cell table__cell--header">Destination</th>
+        <th class="table__cell table__cell--header">Round trip?</th>
+        <th class="table__cell table__cell--header">Compensation</th>
+        <th class="table__cell table__cell--header">Flexibility</th>
+        <th class="table__cell table__cell--header">Comments</th>
+    </thead>
+
+    <tbody>
+        {% for ride_data in list_of_available_rides %}
+
+        <tr>
+            <td>{{ ride_data.requester_name }}</td>
+            <td>{{ ride_data.request_date }}</td>
+            <td>{{ ride_data.request_time }}</td>
+            <td>{{ ride_data.request_destination }}</td>
+            {% if ride_data.round_trip=="True" %}
+            <td> Yes </td>
+            {% else %}
+            <td> No </td>
+            {% endif %}
+            <td>{{ ride_data.offered_compensation }}</td>
+            <td>{{ ride_data.datetime_flexibility }}</td>
+            <td>{{ ride_data.additional_comments }}</td>
+            <td>
+                <a href="#"> Take up the offer </a></td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% else %} Nobody has requested any rides yet. <a href="{{url_for('pages.request_ride')}}">Request one yourself?</a> {% endif %} {% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %} {% block main_content %}
+<h1> Your Requested rides </h1>
+
+<a href="{{url_for('pages.request_ride')}}" class="new__ride--link">
+    [+] Request a ride
+</a> {% if list_of_requested_rides %}
+<table class="table">
+    <thead>
+        <th class="table__cell table__cell--header">Date</th>
+        <th class="table__cell table__cell--header">Time</th>
+        <th class="table__cell table__cell--header">Destination</th>
+        <th class="table__cell table__cell--header">Round trip?</th>
+        <th class="table__cell table__cell--header">Compensation</th>
+        <th class="table__cell table__cell--header">Flexibility</th>
+        <th class="table__cell table__cell--header">Comments</th>
+    </thead>
+
+    <tbody>
+        {% for ride_data in list_of_requested_rides %}
+
+        <tr>
+            <td>{{ ride_data.request_date }}</td>
+            <td>{{ ride_data.request_time }}</td>
+            <td>{{ ride_data.request_destination }}</td>
+            {% if ride_data.round_trip=="True" %}
+            <td> Yes </td>
+            {% else %}
+            <td> No </td>
+            {% endif %}
+            <td>{{ ride_data.offered_compensation }}</td>
+            <td>{{ ride_data.datetime_flexibility }}</td>
+            <td>{{ ride_data.additional_comments }}</td>
+            <td>
+                <a href="{{url_for('pages.delete_ride', user_id=session.get('user_id'), ride_id=ride_data._id)}}">
+                    Delete this ride
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+{% else %} You have not requested any rides yet! {% endif %} {% endblock %}
